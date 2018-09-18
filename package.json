@@ -2,9 +2,9 @@
     "name": "sass-variables-helper",
     "displayName": "Sass Variables Helper",
     "description": "A Tree View of your Sass colors variables",
-    "version": "0.1.0",
-	"publisher": "Nkzq",
-	"icon": "./media/icon.png",
+    "version": "0.1.1",
+    "publisher": "Nkzq",
+    "icon": "media/icon.png",
     "engines": {
         "vscode": "^1.25.0"
     },

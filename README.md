@@ -10,7 +10,7 @@ After you installed the extension, you have to specify the sass file you want to
 "sassVariablesHelper.route": "/css/root/vars/_colors.scss"
 ````
 
-![Package Explorer](./resources/sass-variables.png)
+![Package Explorer](https://github.com/Nkzq/sass-variables-helper/blob/master/resources/sass-variables.png)
 
 ### Roadmap
 

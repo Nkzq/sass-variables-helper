@@ -23,20 +23,18 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 			vscode.window.showInformationMessage('No variables in empty workspace');
 			return Promise.resolve([]);
 		}
-		const colorsFile = this.workspaceRoot
-		if (this.pathExists(colorsFile)) {
-			return Promise.resolve(this.getColorsVariables(colorsFile));
-		} else {
-			vscode.window.showInformationMessage('Workspace has color variables');
-			return Promise.resolve([]);
+		const colorsVars = this.getColorsVariables(this.workspaceRoot)
+		if (colorsVars == []) {
+			vscode.window.showInformationMessage('Workspace has no color variables');
 		}
+		return Promise.resolve(colorsVars);
 	}
 
 	/**
 	 * Given the path to package.json, read all its dependencies and devDependencies.
 	 */
 	private getColorsVariables(colorsFile: string): Color[] {
-		if (this.pathExists(colorsFile)) {
+		if (fs.existsSync(colorsFile)) {
 			const variables = fs.readFileSync(colorsFile, 'utf-8');
 			const match = variables.match(/(\$.*\;)/g);
 			const colorsArr = [];
@@ -76,16 +74,6 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 		})
 		return [...colors, ...dup]
 	}
-
-	private pathExists(p: string): boolean {
-		try {
-			fs.accessSync(p);
-		} catch (err) {
-			return false;
-		}
-
-		return true;
-	}
 }
 
 class Color extends vscode.TreeItem {
@@ -120,24 +108,15 @@ class Color extends vscode.TreeItem {
 	private async createIcon(color: string) {
 		const iconPath = path.join(__filename, '..', '..', '..', 'resources', 'color', `${color}.svg`);
 		await this.cleanFolderIcons(path.join(__filename, '..', '..', '..', 'resources', 'color'))
-		if (this.pathExists(iconPath)) {
+		if (fs.existsSync(iconPath)) {
 			return false
 		}
 		const iconContent = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><circle cx="8" cy="8" r="8" fill="${color}"/></svg>`
 		try{
 			fs.writeFileSync(iconPath, iconContent);
-		}catch (e){
+		} catch (e) {
 			console.log(e);
 		}
-	}
-
-	private pathExists(p: string): boolean {
-		try {
-			fs.accessSync(p);
-		} catch (err) {
-			return false;
-		}
-		return true;
 	}
 
 	iconPath = {

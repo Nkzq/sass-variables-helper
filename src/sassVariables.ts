@@ -36,7 +36,8 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 	private getColorsVariables(colorsFile: string): Color[] {
 		if (fs.existsSync(colorsFile)) {
 			const variables = fs.readFileSync(colorsFile, 'utf-8');
-			const match = variables.match(/(\$.*\;)/g);
+			const onlyVarColors = variables.match(/(?![\/\/\s*COLORS])[\s\S\r\n]+(.*)(?=\/\/\s*END\s*COLORS)/gm)
+			const match = onlyVarColors[0].match(/(\$.*\;)/g);
 			const colorsArr = [];
 			for (let i = 0; i < match.length; i++) {
 				const m = match[i];

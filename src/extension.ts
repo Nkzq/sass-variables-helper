@@ -68,6 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand("sassVariables.nameColor", async () => {
     const color = await vscode.window.showInputBox({
       prompt: "What color would you like to find the name of?",
+      placeHolder: "#BADA55",
     });
     if (color === undefined || color === "") {
       return;

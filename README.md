@@ -39,9 +39,10 @@ Copy the color's value not the Sass variable name:
 "sassVariablesHelper.shouldCopyColor": true
 ```
 
+Want to find a name for a color? Run the command `SASS Variables: Name a Color` (in your command pallette `CMD + Shift + P`)
+
 ### Road map
 
 - Add search and filter
-- Name colors given a color value
 
 Thanks to Sangyong Lee from the Noun Project

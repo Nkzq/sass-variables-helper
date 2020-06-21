@@ -11,6 +11,12 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "SASS",
+    "SCSS",
+    "Variables",
+    "Colors"
+  ],
   "activationEvents": [
     "onView:sassVariables"
   ],
@@ -19,14 +25,14 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "package-explorer",
+          "id": "variables-explorer",
           "title": "SASS Variables",
           "icon": "media/color.svg"
         }
       ]
     },
     "views": {
-      "package-explorer": [
+      "variables-explorer": [
         {
           "id": "sassVariables",
           "name": "Colors"
@@ -36,7 +42,8 @@
     "commands": [
       {
         "command": "sassVariables.refreshEntry",
-        "title": "SASS Variables: Refresh",
+        "title": "Refresh",
+        "category": "SASS Variables",
         "icon": {
           "light": "resources/light/refresh.svg",
           "dark": "resources/dark/refresh.svg"
@@ -44,7 +51,8 @@
       },
       {
         "command": "sassVariables.nameColor",
-        "title": "SASS Variables: Name a color"
+        "title": "Name a color",
+        "category": "SASS Variables"
       }
     ],
     "menus": {

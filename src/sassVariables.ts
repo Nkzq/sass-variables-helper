@@ -1,130 +1,166 @@
-import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as vscode from "vscode";
+import * as fs from "fs-extra";
+import * as path from "path";
+const commonDir = require("common-dir");
+const scssColors = require("scss-colors");
 
-export class colorProvider implements vscode.TreeDataProvider<Color> {
+export class ColorProvider implements vscode.TreeDataProvider<Color> {
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    Color | undefined
+  > = new vscode.EventEmitter<Color | undefined>();
+  readonly onDidChangeTreeData: vscode.Event<Color | undefined> = this
+    ._onDidChangeTreeData.event;
 
-	private _onDidChangeTreeData: vscode.EventEmitter<Color | undefined> = new vscode.EventEmitter<Color | undefined>();
-	readonly onDidChangeTreeData: vscode.Event<Color | undefined> = this._onDidChangeTreeData.event;
+  constructor(
+    private workspaceRoot: string[],
+    private config: vscode.WorkspaceConfiguration,
+    private context: vscode.ExtensionContext
+  ) {}
 
-	constructor(private workspaceRoot: string) {
-	}
+  refresh(): void {
+    this._onDidChangeTreeData.fire(undefined);
+  }
 
-	refresh(): void {
-		this._onDidChangeTreeData.fire();
-	}
+  getTreeItem(element: Color): vscode.TreeItem {
+    return element;
+  }
 
-	getTreeItem(element: Color): vscode.TreeItem {
-		return element;
-	}
+  getChildren(element?: Color): Promise<Color[]> {
+    if (!this.workspaceRoot.length) {
+      vscode.window.showInformationMessage("No variables in empty workspace");
+      return Promise.resolve([]);
+    }
 
-	getChildren(): Thenable<Color[]> {
-		if (!this.workspaceRoot) {
-			vscode.window.showInformationMessage('No variables in empty workspace');
-			return Promise.resolve([]);
-		}
-		const colorsVars = this.getColorsVariables(this.workspaceRoot)
-		if (colorsVars == []) {
-			vscode.window.showInformationMessage('Workspace has no color variables');
-		}
-		return Promise.resolve(colorsVars);
-	}
+    if (element) {
+      return Promise.resolve(
+        this.shortenCommonDirectories(element.filePaths).map(
+          (path) =>
+            new Color(
+              path,
+              element.color,
+              [],
+              this.config,
+              this.context,
+              vscode.TreeItemCollapsibleState.None,
+              {
+                command: "extension.copyColor",
+                title: "",
+                arguments: [element.label],
+              }
+            )
+        )
+      );
+    }
 
-	/**
-	 * Given the path to package.json, read all its dependencies and devDependencies.
-	 */
-	private getColorsVariables(colorsFile: string): Color[] {
-		if (fs.existsSync(colorsFile)) {
-			const variables = fs.readFileSync(colorsFile, 'utf-8');
-			const onlyVarColors = variables.match(/(?![\/\/\s*COLORS])[\s\S\r\n]+(.*)(?=\/\/\s*END\s*COLORS)/gm)
-			const match = onlyVarColors[0].match(/(\$.*\;)/g);
-			const colorsArr = [];
-			for (let i = 0; i < match.length; i++) {
-				const m = match[i];
-				const split = m.split(':');
-				const color = {
-					'colorName': split[0].replace('$', ''),
-					'color': split[1].trim().replace(';', '')
-				}
-				colorsArr.push(color)
-			}
+    return this.getColorsVariables(this.workspaceRoot).then((colorsVars) => {
+      if (colorsVars.length === 0) {
+        vscode.window.showInformationMessage(
+          "Workspace has no color variables"
+        );
+      }
 
-			const toColor = (colorName: string, color: string): Color => {
-				return new Color(colorName, color, vscode.TreeItemCollapsibleState.None, {
-					command: 'extension.openPackageOnNpm',
-					title: '',
-					arguments: [colorName]
-				});
-			}
+      return colorsVars;
+    });
+  }
 
-			const colors = this.cleanDuplicateColors(colorsArr)
-				? colorsArr.map(c => toColor(c['colorName'], c['color']))
-				: [];
-			return colors;
-		} else {
-			return [];
-		}
-	}
+  private shortenCommonDirectories(paths: string[]): string[] {
+    const dir = commonDir(paths);
+    return paths.map((p) => path.relative(dir, p));
+  }
 
-	private cleanDuplicateColors(colors: any[]): any[] {
-		const dup = colors.filter(c => c.color.match(/(\$.*)/g));
-		dup.map(d => {
-			const label = d.color.replace('$', '');
-			const findColor = colors.filter(c => c.colorName === label)[0];
-			d.color = findColor.color;
-		})
-		return [...colors, ...dup]
-	}
+  /**
+   * Given the path to package.json, read all its dependencies and devDependencies.
+   */
+  private async getColorsVariables(paths: string[]): Promise<Color[]> {
+    if (!paths.length) {
+      return [];
+    }
+
+    const allColors = await Promise.all(
+      paths.map(async (p) => {
+        const fileContents = await fs.readFile(p, "utf-8");
+        const colorMapping: Record<string, string> = scssColors(fileContents);
+        return { path: p, colorMapping };
+      })
+    );
+    const colorToPaths = allColors.reduce((map, { path, colorMapping }) => {
+      Object.entries(colorMapping).forEach(([colorName]) => {
+        if (!map.has(colorName)) {
+          map.set(colorName, []);
+        }
+        map.get(colorName)?.push(path);
+      });
+      return map;
+    }, new Map<string, string[]>());
+    const duplicateNames = new Set<string>();
+
+    return allColors.reduce(
+      (out, { colorMapping }) =>
+        out.concat(
+          Object.entries(colorMapping).reduce((out, [colorName, color]) => {
+            if (duplicateNames.has(colorName)) {
+              return out;
+            }
+
+            duplicateNames.add(colorName);
+            const paths = colorToPaths.get(colorName) || [];
+            return out.concat(
+              new Color(
+                colorName,
+                color,
+                paths,
+                this.config,
+                this.context,
+                paths.length > 1
+                  ? vscode.TreeItemCollapsibleState.Collapsed
+                  : vscode.TreeItemCollapsibleState.None,
+                {
+                  command: "extension.copyColor",
+                  title: "",
+                  arguments: [colorName],
+                }
+              )
+            );
+          }, [] as Color[])
+        ),
+      [] as Color[]
+    );
+  }
 }
 
 class Color extends vscode.TreeItem {
+  constructor(
+    public readonly label: string,
+    public readonly color: string,
+    public readonly filePaths: string[],
+    private config: vscode.WorkspaceConfiguration,
+    private context: vscode.ExtensionContext,
+    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public readonly command?: vscode.Command
+  ) {
+    super(label, collapsibleState);
+    this.tooltip = `$${this.label}: ${this.color}`;
+    if (this.config.get("showColorValue")) {
+      this.description = this.color;
+    }
+    this.filePaths = filePaths;
 
-	constructor(
-		public readonly label: string,
-		private color: string,
-		public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-		public readonly command?: vscode.Command
-	) {
-		super(label, collapsibleState);
-		this.createIcon(this.color)
-	}
+    const iconPath = path.join(
+      this.context.globalStoragePath as string,
+      `${color}.svg`
+    );
+    this.iconPath = iconPath;
+    this.createIcon(this.color, iconPath);
+  }
 
-	get tooltip(): string {
-		return `${this.label} : ${this.color}`
-	}
+  private async createIcon(color: string, iconPath: string) {
+    await fs.mkdirp(path.dirname(iconPath));
+    if (await fs.pathExists(iconPath)) {
+      return;
+    }
+    const iconContent = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><circle cx="8" cy="8" r="8" fill="${color}"/></svg>`;
+    await fs.outputFile(iconPath, iconContent);
+  }
 
-	private cleanFolderIcons(dirPath: string) {
-		try { var files = fs.readdirSync(dirPath); }
-		catch(e) { return; }
-		if (files.length > 0) {
-			for (var i = 0; i < files.length; i++) {
-			var filePath = dirPath + '/' + files[i];
-			if (fs.statSync(filePath).isFile())
-				fs.unlinkSync(filePath);
-			else
-				this.cleanFolderIcons(filePath);
-			}
-		}
-	}
-	private async createIcon(color: string) {
-		const iconPath = path.join(__filename, '..', '..', '..', 'resources', 'color', `${color}.svg`);
-		await this.cleanFolderIcons(path.join(__filename, '..', '..', '..', 'resources', 'color'))
-		if (fs.existsSync(iconPath)) {
-			return false
-		}
-		const iconContent = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><circle cx="8" cy="8" r="8" fill="${color}"/></svg>`
-		try{
-			fs.writeFileSync(iconPath, iconContent);
-		} catch (e) {
-			console.log(e);
-		}
-	}
-
-	iconPath = {
-		light: path.join(__filename, '..', '..', '..', 'resources', 'color', `${this.color}.svg`),
-		dark: path.join(__filename, '..', '..', '..', 'resources', 'color', `${this.color}.svg`)
-	};
-
-	contextValue = 'color';
-
+  contextValue = "color";
 }

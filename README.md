@@ -1,40 +1,46 @@
 # Sass Variables Helper
 
-### Features
+Preview Sass Variables right in VS Code.
+
+![Sass Variables Helper](https://raw.githubusercontent.com/Nkzq/sass-variables-helper/master/resources/sass-variables.png)
+
+## Features
 
 This extension add a new tab in your activity bar with a Tree View of your Sass colors variables.
 Get an overall look at all your colors easily and copy the associated variable in one click.
 
 After you installed the extension, you have to specify the sass file you want to explore in your workspace settings, like so :
-````js
+
+```js
 "sassVariablesHelper.route": "/css/root/vars/_colors.scss"
-````
+```
 
-If you have variables that are not colors, you need to wrap your colors variables around comments like below
-````scss
-// COLORS
-$maincolor: #26318d;
-$maincolor--light: #6f8f9d;
-$textcolor: #26318d;
-$red: #e40521;
-$green: #009f37;
-$lightcolor: #fff;
-$darkcolor: #000;
-$maingrey: #f8f8f8;
-$dark-gray: #333;
-$darker-gray: #231F20;
-$medium-gray: #999;
-$light-gray: #EBEBEB;
-$grid-border: $light-gray;
-// END COLORS
-````
+Specify multiple sass files to pull variables from:
 
-Here is a preview of how it looks
-![Package Explorer](https://raw.githubusercontent.com/Nkzq/sass-variables-helper/master/resources/sass-variables.png)
+```js
+"sassVariablesHelper.route": [ "/css/root/vars/_colors.scss", "/another/file/_other-colors.scss" ]
+```
 
-### Roadmap
+Specify paths relative to the workspace directory:
+
+```js
+"sassVariablesHelper.route": [ "./src/scss/_colors.scss", "node_modules/relative/dir/_colors.scss" ]
+```
+
+Show color value in the tree:
+
+```js
+"sassVariablesHelper.showColorValue": true
+```
+
+Copy the color's value not the Sass variable name:
+
+```js
+"sassVariablesHelper.shouldCopyColor": true
+```
+
+### Road map
 
 - Add search and filter
-- Handle multiple files and variables
 
 Thanks to Sangyong Lee from the Noun Project

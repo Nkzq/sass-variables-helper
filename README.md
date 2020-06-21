@@ -42,5 +42,6 @@ Copy the color's value not the Sass variable name:
 ### Road map
 
 - Add search and filter
+- Name colors given a color value
 
 Thanks to Sangyong Lee from the Noun Project

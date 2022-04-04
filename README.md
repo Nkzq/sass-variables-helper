@@ -5,10 +5,12 @@
 This extension add a new tab in your activity bar with a Tree View of your Sass colors variables.
 Get an overall look at all your colors easily and copy the associated variable in one click.
 
-After you installed the extension, you have to specify the sass file you want to explore in your workspace settings, like so :
+After you installed the extension, you have to specify the `relative path` to your sass file you want to explore in your workspace settings, like so :
 ````js
 "sassVariablesHelper.route": "/css/root/vars/_colors.scss"
 ````
+
+⚠️ If there is more than one folder in your workspace, you can specify an `absolute path`.
 
 If you have variables that are not colors, you need to wrap your colors variables around comments like below
 ````scss

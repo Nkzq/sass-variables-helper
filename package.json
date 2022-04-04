@@ -6,7 +6,7 @@
     "publisher": "Nkzq",
     "icon": "media/icon.png",
     "engines": {
-        "vscode": "^1.25.0"
+        "vscode": "^1.65.2"
     },
     "categories": [
         "Other"
@@ -70,12 +70,11 @@
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
         "typescript": "^2.1.4",
-        "vscode": "^1.1.17",
+        "@types/vscode": "^1.66.0",
         "@types/node": "*",
         "@types/mkdirp": "^0.5.2",
         "@types/rimraf": "^2.0.2"

@@ -7,9 +7,10 @@ const ncp = require('copy-paste');
 export function activate(context: vscode.ExtensionContext) {
 	// Following are just data provider samples
 	const sassFileRoute = vscode.workspace.getConfiguration('sassVariablesHelper').route[0] === '/' ? vscode.workspace.getConfiguration('sassVariablesHelper').route : `/${vscode.workspace.getConfiguration('sassVariablesHelper').route}`
-	let rootPath = '';
-	if (sassFileRoute) {
-		rootPath = vscode.workspace.rootPath + sassFileRoute;
+	let rootPath = sassFileRoute;
+
+	if (sassFileRoute && vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length < 2) {
+		rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath + sassFileRoute;
 	}
 	const sassVariablesProvider = new colorProvider(rootPath);
 

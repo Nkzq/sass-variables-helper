@@ -1,5 +1,11 @@
 # Sass Variables Helper
 
+### VSCode version
+
+```
+1.66.0 or higher
+```
+
 ### Features
 
 This extension add a new tab in your activity bar with a Tree View of your Sass colors variables.

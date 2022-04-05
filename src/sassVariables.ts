@@ -11,6 +11,7 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 	}
 
 	refresh(): void {
+    //@ts-ignore
 		this._onDidChangeTreeData.fire();
 	}
 
@@ -37,9 +38,12 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 		if (fs.existsSync(colorsFile)) {
 			const variables = fs.readFileSync(colorsFile, 'utf-8');
 			const onlyVarColors = variables.match(/(?![\/\/\s*COLORS])[\s\S\r\n]+(.*)(?=\/\/\s*END\s*COLORS)/gm)
+      //@ts-ignore
 			const match = onlyVarColors[0].match(/(\$.*\;)/g);
 			const colorsArr = [];
+      //@ts-ignore
 			for (let i = 0; i < match.length; i++) {
+        //@ts-ignore
 				const m = match[i];
 				const split = m.split(':');
 				const color = {
@@ -89,6 +93,7 @@ class Color extends vscode.TreeItem {
 		this.createIcon(this.color)
 	}
 
+  //@ts-ignore
 	get tooltip(): string {
 		return `${this.label} : ${this.color}`
 	}
@@ -107,8 +112,8 @@ class Color extends vscode.TreeItem {
 		}
 	}
 	private async createIcon(color: string) {
-		const iconPath = path.join(__filename, '..', '..', '..', 'resources', 'color', `${color}.svg`);
-		await this.cleanFolderIcons(path.join(__filename, '..', '..', '..', 'resources', 'color'))
+		const iconPath = path.join(__filename, '..', '..', 'resources', 'color', `${color}.svg`);
+		await this.cleanFolderIcons(path.join(__filename, '..', '..', 'resources', 'color'))
 		if (fs.existsSync(iconPath)) {
 			return false
 		}
@@ -121,8 +126,8 @@ class Color extends vscode.TreeItem {
 	}
 
 	iconPath = {
-		light: path.join(__filename, '..', '..', '..', 'resources', 'color', `${this.color}.svg`),
-		dark: path.join(__filename, '..', '..', '..', 'resources', 'color', `${this.color}.svg`)
+		light: path.join(__filename, '..', '..', 'resources', 'color', `${this.color}.svg`),
+		dark: path.join(__filename, '..', '..', 'resources', 'color', `${this.color}.svg`)
 	};
 
 	contextValue = 'color';

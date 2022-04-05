@@ -2,7 +2,7 @@
 
 import * as vscode from 'vscode';
 import { colorProvider } from './sassVariables'
-const ncp = require('copy-paste');
+const ncp = require('@nkzq/copy-paste')
 
 export function activate(context: vscode.ExtensionContext) {
 	// Following are just data provider samples

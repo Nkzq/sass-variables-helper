@@ -35,4 +35,9 @@ $grid-border: $light-gray;
 Here is a preview of how it looks
 ![Package Explorer](https://raw.githubusercontent.com/Nkzq/sass-variables-helper/master/resources/sass-variables.png)
 
+### Troubleshooting
+
+Nothing appears ? Double check your settings and try to reload your VSCode window.
+Still not working ? Feel free to open a new issue, I'll try to be faster to respond.
+
 Thanks to Sangyong Lee from the Noun Project

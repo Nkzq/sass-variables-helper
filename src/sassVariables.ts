@@ -4,14 +4,14 @@ import * as path from 'path';
 
 export class colorProvider implements vscode.TreeDataProvider<Color> {
 
-	private _onDidChangeTreeData: vscode.EventEmitter<Color | undefined> = new vscode.EventEmitter<Color | undefined>();
-	readonly onDidChangeTreeData: vscode.Event<Color | undefined> = this._onDidChangeTreeData.event;
-
 	constructor(private workspaceRoot: string) {
 	}
 
+	private _onDidChangeTreeData: vscode.EventEmitter<Color | undefined | null | void> = new vscode.EventEmitter<Color | undefined | null | void>();
+  readonly onDidChangeTreeData: vscode.Event<Color | undefined | null | void> = this._onDidChangeTreeData.event;
+
   refresh(): void {
-    this._onDidChangeTreeData.fire(undefined);
+    this._onDidChangeTreeData.fire();
   }
 
 	getTreeItem(element: Color): vscode.TreeItem {
@@ -54,7 +54,7 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 
 			const toColor = (colorName: string, color: string): Color => {
 				return new Color(colorName, color, vscode.TreeItemCollapsibleState.None, {
-					command: 'extension.openPackageOnNpm',
+					command: 'sassVariables.openPackageOnNpm',
 					title: '',
 					arguments: [colorName]
 				});

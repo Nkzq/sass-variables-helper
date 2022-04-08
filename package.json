@@ -14,7 +14,7 @@
 	],
 	"activationEvents": [
 		"onView:sassVariables",
-		"onCommand:extension.refresh"
+		"onCommand:sassVariables.refreshEntry"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -37,7 +37,7 @@
 		},
 		"commands": [
 			{
-				"command": "extension.refresh",
+				"command": "sassVariables.refreshEntry",
 				"title": "SASS Variables Helper: Reload",
 				"icon": {
 					"light": "resources/light/refresh.svg",
@@ -48,7 +48,7 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "extension.refresh",
+					"command": "sassVariables.refreshEntry",
 					"when": "view == sassVariables",
 					"group": "navigation"
 				}

@@ -1,49 +1,70 @@
-# Sass Variables Helper
+# sass-variables-helper README
 
-### VSCode version
+This is the README for your extension "sass-variables-helper". After writing up a brief description, we recommend including the following sections.
 
-```
-1.66.0 or higher
-```
+## Features
 
-### Features
+Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
-This extension add a new tab in your activity bar with a Tree View of your Sass colors variables.
-Get an overall look at all your colors easily and copy the associated variable in one click.
+For example if there is an image subfolder under your extension project workspace:
 
-After you installed the extension, you have to specify the `relative path` to your sass file you want to explore in your workspace settings.
-Add the following line in your workspace settings and edit the path to fit your project :
-````js
-"sassVariablesHelper.route": "/css/root/vars/_colors.scss"
-````
+\!\[feature X\]\(images/feature-x.png\)
 
-⚠️ If there is more than one folder in your workspace, you can specify an `absolute path`.
+> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-If you have variables that are not colors, you need to wrap your colors variables around comments like below
-````scss
-// COLORS
-$maincolor: #26318d;
-$maincolor--light: #6f8f9d;
-$textcolor: #26318d;
-$red: #e40521;
-$green: #009f37;
-$lightcolor: #fff;
-$darkcolor: #000;
-$maingrey: #f8f8f8;
-$dark-gray: #333;
-$darker-gray: #231F20;
-$medium-gray: #999;
-$light-gray: #EBEBEB;
-$grid-border: $light-gray;
-// END COLORS
-````
+## Requirements
 
-Here is a preview of how it looks
-![Package Explorer](https://raw.githubusercontent.com/Nkzq/sass-variables-helper/master/resources/sass-variables.png)
+If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
-### Troubleshooting
+## Extension Settings
 
-Nothing appears ? Double check your settings and try to reload your VSCode window.
-Still not working ? Feel free to open a new issue, I'll try to be faster to respond.
+Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-Thanks to Sangyong Lee from the Noun Project
+For example:
+
+This extension contributes the following settings:
+
+* `myExtension.enable`: enable/disable this extension
+* `myExtension.thing`: set to `blah` to do something
+
+## Known Issues
+
+Calling out known issues can help limit users opening duplicate issues against your extension.
+
+## Release Notes
+
+Users appreciate release notes as you update your extension.
+
+### 1.0.0
+
+Initial release of ...
+
+### 1.0.1
+
+Fixed issue #.
+
+### 1.1.0
+
+Added features X, Y, and Z.
+
+-----------------------------------------------------------------------------------------------------------
+## Following extension guidelines
+
+Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+
+* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+
+## Working with Markdown
+
+**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+
+* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
+* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
+* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+
+### For more information
+
+* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
+* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+
+**Enjoy!**

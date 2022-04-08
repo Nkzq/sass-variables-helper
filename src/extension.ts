@@ -15,15 +15,17 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.window.registerTreeDataProvider('sassVariables', sassVariablesProvider);
 
-	const disposable = vscode.commands.registerCommand('sassVariables.refresh', () => {
+	const refresh = vscode.commands.registerCommand('extension.svhReload', () => {
 		sassVariablesProvider.refresh();
 	});
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(refresh);
 
-	vscode.commands.registerCommand('extension.openPackageOnNpm', colorName => {
+	const copy = vscode.commands.registerCommand('extension.openPackageOnNpm', colorName => {
 		ncp.copy(`$${colorName}`, () => {
 			vscode.window.showInformationMessage('Variable copied to clipboard');
 		})
 	});
+
+	context.subscriptions.push(copy);
 }

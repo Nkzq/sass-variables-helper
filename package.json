@@ -14,7 +14,7 @@
 	],
 	"activationEvents": [
 		"onView:sassVariables",
-		"onCommand:sassVariables.refreshEntry"
+		"onCommand:sassVariables.refresh"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -37,18 +37,18 @@
 		},
 		"commands": [
 			{
-				"command": "sassVariables.refreshEntry",
+				"command": "sassVariables.refresh",
 				"title": "Refresh",
 				"icon": {
-					"light": "resources/light/refresh.svg",
-					"dark": "resources/dark/refresh.svg"
-				}
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "sassVariables.refreshEntry",
+					"command": "sassVariables.refresh",
 					"when": "view == sassVariables",
 					"group": "navigation"
 				}

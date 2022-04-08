@@ -45,6 +45,10 @@
 			}
 		}
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nkzq/sass-variables-helper"
+	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
 		"compile": "tsc -p ./",

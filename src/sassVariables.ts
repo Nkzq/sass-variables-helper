@@ -10,10 +10,9 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 	constructor(private workspaceRoot: string) {
 	}
 
-	refresh(): void {
-    //@ts-ignore
-		this._onDidChangeTreeData.fire();
-	}
+  refresh(): void {
+    this._onDidChangeTreeData.fire(undefined);
+  }
 
 	getTreeItem(element: Color): vscode.TreeItem {
 		return element;

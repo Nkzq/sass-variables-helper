@@ -15,8 +15,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.window.registerTreeDataProvider('sassVariables', sassVariablesProvider);
 
-	const refresh = vscode.commands.registerCommand('extension.svhReload', () => {
+	const refresh = vscode.commands.registerCommand('extension.refresh', () => {
 		sassVariablesProvider.refresh();
+		vscode.window.showInformationMessage('Colors list has been refreshed.');
 	});
 
 	context.subscriptions.push(refresh);

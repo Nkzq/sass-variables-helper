@@ -7,12 +7,12 @@ export class colorProvider implements vscode.TreeDataProvider<Color> {
 	constructor(private workspaceRoot: string) {
 	}
 
-	private _onDidChangeTreeData: vscode.EventEmitter<Color | undefined | null | void> = new vscode.EventEmitter<Color | undefined | null | void>();
-  readonly onDidChangeTreeData: vscode.Event<Color | undefined | null | void> = this._onDidChangeTreeData.event;
+	// private _onDidChangeTreeData: vscode.EventEmitter<Color | undefined | null | void> = new vscode.EventEmitter<Color | undefined | null | void>();
+  // readonly onDidChangeTreeData: vscode.Event<Color | undefined | null | void> = this._onDidChangeTreeData.event;
 
-  refresh(): void {
-    this._onDidChangeTreeData.fire();
-  }
+  // refresh(): void {
+  //   this._onDidChangeTreeData.fire();
+  // }
 
 	getTreeItem(element: Color): vscode.TreeItem {
 		return element;

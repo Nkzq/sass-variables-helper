@@ -13,8 +13,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:sassVariables",
-		"onCommand:sassVariables.refreshEntry"
+		"onView:sassVariables"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -32,25 +31,6 @@
 				{
 					"id": "sassVariables",
 					"name": "Colors"
-				}
-			]
-		},
-		"commands": [
-			{
-				"command": "sassVariables.refreshEntry",
-				"title": "SASS Variables Helper: Reload",
-				"icon": {
-					"light": "resources/light/refresh.svg",
-					"dark": "resources/dark/refresh.svg"
-				}
-			}
-		],
-		"menus": {
-			"view/title": [
-				{
-					"command": "sassVariables.refreshEntry",
-					"when": "view == sassVariables",
-					"group": "navigation"
 				}
 			]
 		},

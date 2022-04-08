@@ -2,7 +2,7 @@
 	"name": "sass-variables-helper",
 	"displayName": "SASS Variables Helper",
 	"description": "A Tree View of your Sass colors variables",
-	"version": "1.5.3",
+	"version": "1.5.4",
 	"publisher": "Nkzq",
 	"icon": "media/icon.png",
 	"license": "MIT",

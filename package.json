@@ -13,7 +13,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:sassVariables"
+		"onView:sassVariables",
+		"onCommand:sassVariables.refreshEntry"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

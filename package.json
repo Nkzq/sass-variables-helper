@@ -33,6 +33,25 @@
 				}
 			]
 		},
+		"commands": [
+      {
+        "command": "sassVariables.refreshEntry",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "sassVariables.refreshEntry",
+          "when": "view == sassVariables",
+          "group": "navigation"
+        }
+      ]
+    },
 		"configuration": {
 			"type": "object",
 			"title": "SASS Variables Helper",
